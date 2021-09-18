@@ -8,7 +8,6 @@ let activeExperiments = {};
 let experimentsWithDefinedVariants = {};
 let playedExperiments = {};
 let customDistributionAlgorithm = undefined;
-let enableCookies = false;
 
 const emitter = new EventEmitter();
 
@@ -278,16 +277,6 @@ PushtellEventEmitter.prototype.addExperimentVariant = function (
     experimentWeights[experimentName][variantName] = 1;
   }
   experiments[experimentName][variantName] = true;
-};
-
-PushtellEventEmitter.prototype.setCookie = function (enabled) {
-  if (typeof enabled == 'boolean') {
-    enableCookies = enabled;
-  }
-};
-
-PushtellEventEmitter.prototype.withCookie = function () {
-  return enableCookies;
 };
 
 export default new PushtellEventEmitter();

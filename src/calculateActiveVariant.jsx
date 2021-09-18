@@ -1,7 +1,6 @@
 import crc32 from 'fbjs/lib/crc32';
 import emitter from './emitter';
 import store from './store';
-import storeCookie from './storeCookie';
 
 const calculateVariant = (experimentName, userIdentifier) => {
   /*
@@ -58,17 +57,11 @@ export default (experimentName, userIdentifier, defaultVariantName) => {
   if (typeof activeValue === 'string') {
     return activeValue;
   }
-  let storedValue;
-  if (emitter.withCookie()) {
-    storedValue = storeCookie().getCookie('PUSHTELL_COOKIE-' + experimentName);
-  } else {
-    storedValue = store.getItem('PUSHTELL-' + experimentName);
-  }
+  const storedValue = store.getItem('PUSHTELL-' + experimentName);
   if (typeof storedValue === 'string') {
     emitter.setActiveVariant(experimentName, storedValue, true);
     return storedValue;
   }
-
   if (typeof defaultVariantName === 'string') {
     emitter.setActiveVariant(experimentName, defaultVariantName);
     return defaultVariantName;
